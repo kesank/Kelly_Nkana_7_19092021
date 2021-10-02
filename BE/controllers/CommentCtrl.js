@@ -27,7 +27,18 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
     Comment.findAll(
         {
-            where: { messageId: req.params.id }
+            order: [
+                ['updatedAt', 'DESC'],
+            ],
+            include: [
+                {
+                    model: User,
+                    required: true,
+
+                },
+
+            ],
+
         }
     )
         .then(
@@ -53,14 +64,57 @@ exports.findOne = (req, res) => {
         ).catch(error => res.status(500).json({ error }));
 
 };
+exports.getSignal = (req, res) => {
+    Comment.findAll(
+        {
+            order: [
+                ['updatedAt', 'DESC'],
+            ],
+            include: [
+                {
+                    model: User,
+                    required: true
+                }
+            ],
+            where: {
+                likes: 1
+            }
+
+        },
+
+
+    )
+        .then(
+
+            comments => {
+                res.status(200).json(comments);
+            }
+        )
+        .catch(error => {
+            res.status(400).json({ error });
+        });
+};
+
+exports.signal = (req, res) => {
+    console.log(req.params.id);
+    Comment.update({ likes: req.body.likes },
+        { returning: true, where: { id: req.params.id } }
+    )
+        .then(
+            (comment) => {
+                console.log(comment);
+                res.status(200).json(comment);
+            }
+        ).catch(error => res.status(500).json({ error }));
+
+};
 
 exports.update = (req, res) => {
 
 };
 
-// Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
-    Message.destroy({ where: { id: req.params.id } }).then(
+    Comment.destroy({ where: { id: req.params.id } }).then(
         () => {
             res.status(200).json({
                 message: 'Deleted!'

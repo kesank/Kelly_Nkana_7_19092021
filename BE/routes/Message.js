@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 const message = require('../controllers/MessageCtrl');
 
 router.get('/', message.findAll);
+router.get('/signal', message.getSignal);
 router.post('/post', message.create);
 router.get('/:id', message.findOne);
 router.get('pseudo/:id', message.findPseudo);

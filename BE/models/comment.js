@@ -4,6 +4,7 @@ module.exports = (sequelize, Sequelize) => {
         post: {
             type: Sequelize.STRING
         },
+        likes: { type: Sequelize.INTEGER, defaultValue: 0 },
 
 
     }

@@ -3,14 +3,18 @@
         <div class="tchat_vue">
             <ul class="bubble">
                 <li class="message" v-for="item in tchat" :key="item">
-                    <p> {{item.userId}}</p>
+                    <p> {{item.user.pseudo}}</p>
                     <router-link
                         :to="`/onemsg/${item.id}`"
                     >
                       <p >
                           {{item.msg}}
                       </p>  
+
                     </router-link>
+                    <p >
+                        {{format_date(item.createdAt)}}
+                    </p>  
                 </li>
             </ul>
             
@@ -28,6 +32,7 @@
 </template>
 <script>
 import service_msg from "../services/fetch";
+import moment from 'moment'
 export default {
   name: 'Tchat',
   data() {
@@ -49,6 +54,7 @@ export default {
      
         service_msg("http://localhost:3000/api/message/")
         .then(result=>{
+          console.log(result)
           this.tchat=result
         })
         .catch(error=>{
@@ -74,46 +80,80 @@ export default {
           console.log(error)
         })
     },
+    format_date(value){
+         if (value) {
+           return moment(String(value)).format('DD/MM/YYYY à hh:mm')
+          }
+      },
+
 
   },
 }
 </script>
 <style lang="scss">
-    .tchat_vue {
-        width: 100%;
-        border:2px black solid;
-        height: 500px;
-        background:  #d3dfe4;
-        overflow: auto;
-        .bubble{
-            list-style: none;
-            .message{
-                border: red dotted 3px solid;
-                padding: 7px;
-                margin:50px 30px;
-                border-radius: 40px;
+   .Tchat{ 
+     
+        
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
 
-                &:nth-child(even) {background: rgb(216, 213, 200)}
-                &:nth-child(odd) {background: rgb(190, 197, 191)}
+        .tchat_vue {
+              width: 80%;
+              border:2px black solid;
+              height: 500px;
+              background:  #d3dfe4;
+              overflow: auto;
+              margin: 10px;
+              .bubble{
+                  list-style: none;
+                  .message{
+                      border: red dotted 3px solid;
+                      padding: 7px;
+                      margin:50px 30px;
+                      border-radius: 40px;
 
-            }
-            .comment{
-                border: rgb(69, 67, 70)  3px solid;
-                padding: 7px;
-                margin:50px 30px;
-                border-radius: 40px;
-                width: 50%;
+                      &:nth-child(even) {background: rgb(216, 213, 200)}
+                      &:nth-child(odd) {background: rgb(190, 197, 191)}
+
+                  }
+                  .comment{
+                      border: rgb(69, 67, 70)  3px solid;
+                      padding: 7px;
+                      margin:50px 30px;
+                      border-radius: 40px;
+                      width: 50%;
 
 
-                &:nth-child(even) {background: rgb(241, 92, 234)}
-                &:nth-child(odd) {background: rgb(36, 183, 228)}
-            }
-        }
-      
-    }
-    #msg{
-    background: rgb(216, 216, 192);
-    width: 60%;
-    height: 80px;
-    }  
+                      &:nth-child(even) {background: rgb(241, 92, 234)}
+                      &:nth-child(odd) {background: rgb(36, 183, 228)}
+                      span{
+                        font-weight: bolder;
+                        text-transform: capitalize;
+                      }
+                  }
+              }
+            
+          }
+          .warn{
+              width: 80%;
+              border:2px black solid;
+              height: 500px;
+              background:  #f5d5d5;
+              overflow: auto;
+              margin: 10px;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-around;
+/*               .bubble_warn{
+
+              }      */       
+          }
+          #msg{
+          background: rgb(216, 216, 192);
+          width: 100%;
+          height: 80px;
+          } 
+     }
 </style>

@@ -3,18 +3,22 @@
         <div class="tchat_vue">
           <div class="bubble">
               <div class="message" >
-                    <p> {{tchat.id}}</p>
+                    <!-- <p> {{tchat.user.pseudo}}</p>     -->
 
                       <p >
                           {{tchat.msg}}
                       </p>  
-                    <button @click="destroy"> Supprimer</button>
+                    <button @click="destroy"  v-if="tchat.userId == id_user"> Supprimer</button>
                     
-                    <button @click="signal">Signaler</button>
+                    <button @click="signal"  v-if="tchat.userId != id_user">Signaler</button>
                 </div>
                 <input type="text" v-model="post">
                 <button @click="send"> Poster</button>
-                <p class="comment" v-for="item in get_post" :key="item">{{item.post}}</p>
+                <p class="comment" v-for="item in get_post" :key="item">
+                  <span>{{item.user.pseudo}} :</span> {{item.post}} <br>
+                  <button @click="destroy_com(item.id)"  v-if="item.userId == id_user"> Supprimer</button>
+                  <button @click="signal_com(item.id)" v-if="item.userId != id_user">Signaler</button>
+                </p>
 
           </div>
 
@@ -29,11 +33,18 @@ export default {
     return {
        tchat:"",
        post:"",
-       get_post:""
+       get_post:"",
+       id_user:""
     }
     
   },
   mounted() {
+    let token_id =localStorage.getItem("token")
+    token_id=JSON.parse(token_id)
+    this.id_user=token_id.userId
+    console.log(token_id)
+    console.log(this.id_user)
+
     let href=window.location.href
     let url=href.split('/onemsg/')
     let id =url[1]
@@ -41,6 +52,7 @@ export default {
         service_msg(`http://localhost:3000/api/message/${id}`)
         .then(result=>{
           this.tchat=result
+          console.log(result)
         })
         .catch(error=>{
           console.log(error)
@@ -102,6 +114,21 @@ export default {
           console.log(error)
         }) 
     },
+    signal_com(value){
+
+      const warn={
+        likes:1,
+      }     
+      console.log(value)
+      service_msg(`http://localhost:3000/api/comment/signal/${value}`,warn)
+        .then(result=>{
+          console.log(result)
+
+        })
+        .catch(error=>{
+          console.log(error)
+        }) 
+    },
 
     destroy(){
     let href=window.location.href
@@ -112,15 +139,32 @@ export default {
         service_msg(`http://localhost:3000/api/message/destroy/${id}`)
         .then(result=>{
           console.log(result)
+          window.location.replace("http://192.168.1.129:8080/tchat");
 
         })
         .catch(error=>{
           console.log(error)
         }) 
-        window.location.replace("http://192.168.1.129:8080/tchat");
+        
  
  
-    }
+    },
+    destroy_com(value){
+ 
+      
+        service_msg(`http://localhost:3000/api/comment/destroy/${value}`)
+        .then(result=>{
+          console.log(result)
+          window.location.reload()
+
+        })
+        .catch(error=>{
+          console.log(error)
+        }) 
+        
+ 
+ 
+    },
   }
 }
 </script>

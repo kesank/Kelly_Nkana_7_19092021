@@ -28,9 +28,7 @@ export default {
     
   },
   mounted() {
-    console.log(JSON.parse(localStorage.getItem("token")))
-    console.log("kemem")
- 
+    
   },
   methods: {
     get(){
@@ -43,6 +41,7 @@ export default {
         .then(result=>{
           /* localStorage.clear() */
             localStorage.setItem("token",JSON.stringify(result))
+            window.location.replace("http://192.168.1.129:8080/tchat");
             console.log("token : "+result.userId)
         })
         .catch(error=>{

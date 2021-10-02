@@ -5,6 +5,7 @@ import Signin from '../views/Signin.vue';
 import Tchat from '../views/Tchat.vue';
 import OneMsg from '../views/OneMsg.vue';
 import Warn from '../views/Warn.vue';
+import Profil from '../views/Profil.vue';
 
 const routes = [
 
@@ -33,6 +34,12 @@ const routes = [
     name: 'Warn',
     component: Warn
   },
+  {
+    path: '/profil',
+    name: 'Profil',
+    component: Profil
+  },
+  /* { path: '*', component: 404 } */
 ];
 
 const router = createRouter({

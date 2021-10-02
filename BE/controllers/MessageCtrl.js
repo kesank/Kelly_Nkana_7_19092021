@@ -28,14 +28,16 @@ exports.findAll = (req, res) => {
     Message.findAll(
         {
             order: [
-                ['updatedAt', 'DESC'],
+                ['createdAt', 'DESC'],
             ],
             include: [
                 {
                     model: User,
-                    required: true
-                }
-            ]
+                    required: true,
+                },
+
+            ],
+
         }
     )
         .then(
@@ -64,6 +66,36 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
 
+};
+exports.getSignal = (req, res) => {
+    Message.findAll(
+        {
+            order: [
+                ['updatedAt', 'DESC'],
+            ],
+            include: [
+                {
+                    model: User,
+                    required: true
+                }
+            ],
+            where: {
+                likes: 1
+            }
+
+        },
+
+
+    )
+        .then(
+
+            messages => {
+                res.status(200).json(messages);
+            }
+        )
+        .catch(error => {
+            res.status(400).json({ error });
+        });
 };
 exports.signal = (req, res) => {
     console.log(req.params.id);

@@ -2,6 +2,8 @@ const db = require("../models");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = db.user;
+const Message = db.message;
+const Comment = db.comments;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -64,6 +66,7 @@ exports.login = (req, res) => {
                     }
                     const id_token = {
                         userId: user.id,
+                        role: user.role,
                         token: jwt.sign(
                             { userId: user.id },
                             'azerty24587',/* Fichier env à créer */
@@ -86,13 +89,45 @@ exports.login = (req, res) => {
         });
 };
 
-// Update a Tutorial by the id in the request
-exports.update = (req, res) => {
+exports.findOne = (req, res) => {
+    User.findOne({ where: { id: req.params.id } })
+        .then(
+            (user) => {
+                console.log(user);
+                res.status(200).json(user);
+            }
+        ).catch(error => res.status(500).json({ error }));
 
 };
 
-// Delete a Tutorial with the specified id in the request
+exports.update = (req, res) => {
+    User.update({
+        pseudo: req.body.pseudo,
+        email: req.body.email
+    },
+        { returning: true, where: { id: req.body.id } }
+    )
+        .then(
+            (message) => {
+                console.log(message);
+                res.status(200).json(message);
+            }
+        ).catch(error => res.status(500).json({ error }));
+};
 exports.delete = (req, res) => {
+    User.destroy({ where: { id: req.params.id } }).then(
+        () => {
 
+            res.status(200).json({
+                message: 'Deleted!'
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
 };
 

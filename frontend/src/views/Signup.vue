@@ -50,11 +50,13 @@ export default {
       }
         service_user("http://localhost:3000/api/user/post",id_user)
         .then(result=>{
+          
           console.log(result)
         })
         .catch(error=>{
           console.log(error)
         })
+        window.location.replace("http://192.168.1.129:8080/signin");
     }
   },
 }
