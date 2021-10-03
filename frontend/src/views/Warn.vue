@@ -1,19 +1,19 @@
 <template>
   <div class="Tchat">
-        <h1>Signalement</h1>
+        <h1>Posts et Commentaires signalés</h1>
         <div class="warn">
-            
-                 <ul class="warn_post">
-                   <h2>Post signalé</h2>
-                    <li class="message" v-for="item in tchat" :key="item">
-                        <p> {{item.user.pseudo}}</p>
+    
+          <ul class="warn_post">
+            <h2>Post signalé</h2>
+            <li class="message" v-for="item in tchat" :key="item">
+                <p> {{item.user.pseudo}}</p>
 
-                          <p >
-                              {{item.msg}}
-                          </p>  
-                      <button @click="approve_msg(item.id)">Approuver</button>
-                      <button @click="remove_msg(item.id)">Supprimer</button>
-                    </li>
+                  <p >
+                      {{item.msg}}
+                  </p>  
+              <button @click="approve_msg(item.id)">Approuver</button>
+              <button @click="remove_msg(item.id)">Supprimer</button>
+            </li>
                     
             </ul>
             <ul class="warn_com">
@@ -125,3 +125,24 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  h1{
+    font-size: xx-large;
+    font-weight: bolder;
+      color: rgb(192, 84, 65);
+  }
+  .warn{
+    li{
+      border-radius: 10px;
+      background: rgb(0, 195, 255);
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow:4px 5px 5px rgb(44, 92, 223);
+    }
+    h2{
+      font-size: x-large;
+      font-weight: bolder;
+      color: tomato;
+    }
+  }
+</style>

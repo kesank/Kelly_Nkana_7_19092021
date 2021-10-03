@@ -1,32 +1,32 @@
 <template>
   <div class="Tchat">
-        <div class="tchat_vue">
+        <section class="tchat_vue">
             <ul class="bubble">
                 <li class="message" v-for="item in tchat" :key="item">
-                    <p> {{item.user.pseudo}}</p>
-                    <router-link
-                        :to="`/onemsg/${item.id}`"
-                    >
-                      <p >
-                          {{item.msg}}
-                      </p>  
 
-                    </router-link>
+                    <h3> {{item.user.pseudo}}</h3>
+                      <router-link
+                        :to="`/onemsg/${item.id}`"
+                       >
+                      <p class="msg_tchat">
+
+                          {{item.msg}}
+                         
+                      </p>  
+                      </router-link> 
+                    
                     <p >
                         {{format_date(item.createdAt)}}
-                    </p>  
+                    </p> 
+
                 </li>
             </ul>
             
-
-
-
-
-        </div>
-            <p>
+        </section>
+            <section class="send_msg">
                 <input id="msg" v-model="msg"  @keyup.enter="get"  type="msg"  > <br>
-                <input  type="submit" @click="get"  value="Envoyer Message">
-            </p>
+                <button :disabled="msg == ''"  @click="get">Envoyer Message</button> 
+            </section>
 
   </div>
 </template>
@@ -93,29 +93,82 @@ export default {
 <style lang="scss">
    .Tchat{ 
      
-        
+        margin-top: 15px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: wrap;
         justify-content: center;
-
+        align-items: center;
+        .send_msg{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          button{
+            background: cornflowerblue;
+            border-radius: 15px;
+            color: red;
+            font-size: x-large;
+            box-shadow: 10px 5px 5px black;
+          }
+          #msg{
+            background: rgb(216, 216, 192);
+            width: 300px;
+            height: 80px;
+            border-radius: 20px;
+            
+          } 
+        }
         .tchat_vue {
-              width: 80%;
+              width: 90%;
               border:2px black solid;
-              height: 500px;
+              height: 420px;
               background:  #d3dfe4;
               overflow: auto;
-              margin: 10px;
+              margin: 50px 10px;
+              border-radius: 50px;
+              border:red 3px solid;
               .bubble{
                   list-style: none;
+                  padding: 15px;
+                  display: flex;
+                  flex-direction: column;
+                    button{
+                          background: cornflowerblue;
+                          border-radius: 15px;
+                          color: red;
+                          font-size: small;
+                          box-shadow: 10px 5px 5px black;
+                      }
+                    .send_post{
+                      font-size: x-large;
+                      width: fit-content;
+                    }
                   .message{
-                      border: red dotted 3px solid;
-                      padding: 7px;
+                      border: cornflowerblue  3px solid;
+                      padding: 20px;
                       margin:50px 30px;
                       border-radius: 40px;
+                      width: 70%;
+                      text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+
 
                       &:nth-child(even) {background: rgb(216, 213, 200)}
                       &:nth-child(odd) {background: rgb(190, 197, 191)}
+                      h3{
+                        text-transform: uppercase;
+                        color:rgb(230, 70, 70)
+                      }
+                      .msg_tchat{
+                        display: flex;
+                        flex-wrap: wrap;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        width: 90%;
+                        }
+                      
 
                   }
                   .comment{
@@ -150,10 +203,6 @@ export default {
 
               }      */       
           }
-          #msg{
-          background: rgb(216, 216, 192);
-          width: 100%;
-          height: 80px;
-          } 
+
      }
 </style>

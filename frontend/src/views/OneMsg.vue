@@ -8,14 +8,20 @@
                       <p >
                           {{tchat.msg}}
                       </p>  
+                      <p >
+                        {{format_date(tchat.createdAt)}}
+                    </p> 
                     <button @click="destroy"  v-if="tchat.userId == id_user"> Supprimer</button>
                     
                     <button @click="signal"  v-if="tchat.userId != id_user">Signaler</button>
                 </div>
-                <input type="text" v-model="post">
-                <button @click="send"> Poster</button>
+                <input type="text" @keyup.enter="send" class="msg" v-model="post">
+                <button @click="send" :disabled="post == ''" class="send_post"> Poster</button>
                 <p class="comment" v-for="item in get_post" :key="item">
                   <span>{{item.user.pseudo}} :</span> {{item.post}} <br>
+                  <span >
+                        {{format_date(item.createdAt)}}
+                    </span> <br>
                   <button @click="destroy_com(item.id)"  v-if="item.userId == id_user"> Supprimer</button>
                   <button @click="signal_com(item.id)" v-if="item.userId != id_user">Signaler</button>
                 </p>
@@ -27,6 +33,7 @@
 </template>
 <script>
 import service_msg from "../services/fetch";
+import moment from 'moment'
 export default {
   name: 'Tchat',
   data() {
@@ -165,9 +172,20 @@ export default {
  
  
     },
+       format_date(value){
+         if (value) {
+           return moment(String(value)).format('DD/MM/YYYY à hh:mm')
+          }
+      },
+
   }
 }
 </script>
 <style lang="scss">
-
+  .msg{
+            background: rgb(216, 216, 192);
+            width: 300px;
+            height: 80px;
+            border-radius: 20px;
+  }
 </style>

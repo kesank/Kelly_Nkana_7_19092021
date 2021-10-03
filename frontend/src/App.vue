@@ -1,6 +1,7 @@
 <template>
 <div>
     <div id="nav">
+      <img src="./assets/icon-left-font-monochrome-black.png" alt="">
     <router-link v-if="token == ''" to="/signup">Inscription</router-link>
     <router-link v-if="token == ''" to="/signin">Connexion</router-link>
     <router-link v-if="token != ''" to="/tchat">Tchat</router-link>
@@ -9,6 +10,9 @@
     <router-link v-if="token != ''" @click="deconnexion" to="/signin">Deconnexion</router-link>
   </div>
   <router-view/>
+  <footer>
+
+  </footer>
 </div>
 
 </template>
@@ -52,7 +56,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -97,27 +101,35 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+a{
+  text-decoration: none;
 }
 
+
 #nav {
-  padding: 30px;
+  
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  box-shadow: 0px 5px 0px black;
+  background: cornflowerblue;
+    img{
+      width:80px ;
+    }
+    a{
+      font-weight: bold;
+      color: #2c3e50;
+      line-height:80px;
+      .router-link-exact-active {
+        color: #42b983;
+  }
+    }
+}
+footer{
+  height: 80px;
+  margin-top:60px ;
+  background: cornflowerblue;
+
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

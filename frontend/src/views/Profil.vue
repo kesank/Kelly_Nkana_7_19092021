@@ -90,9 +90,10 @@ export default {
 </script>
 <style lang="scss" >
     .profil{
-        background: rgb(71, 227, 255);
-        width: 100%;
-        min-height: 200px;
+        background: rgb(230, 165, 161);
+        width: 90%;
+        min-height: 500px;
+        padding: 26px;
 
     }
 </style>
