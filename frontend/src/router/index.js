@@ -6,6 +6,7 @@ import Tchat from '../views/Tchat.vue';
 import OneMsg from '../views/OneMsg.vue';
 import Warn from '../views/Warn.vue';
 import Profil from '../views/Profil.vue';
+import NotFound from '../views/NotFound.vue';
 
 const routes = [
 
@@ -39,7 +40,7 @@ const routes = [
     name: 'Profil',
     component: Profil
   },
-  /* { path: '*', component: 404 } */
+  { path: "/:catchAll(.*)", component: NotFound },
 ];
 
 const router = createRouter({

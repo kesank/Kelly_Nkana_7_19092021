@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+require('dotenv').config();
 const cors = require("cors");
 const user = require('./routes/User');
 const message = require('./routes/message');
