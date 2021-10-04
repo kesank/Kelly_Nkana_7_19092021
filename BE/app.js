@@ -5,6 +5,8 @@ const cors = require("cors");
 const user = require('./routes/User');
 const message = require('./routes/message');
 const comment = require('./routes/comment');
+/* const path = require('path');
+app.use('/images', express.static(path.join(__dirname, 'images'))); */
 const app = express();
 
 

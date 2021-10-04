@@ -1,6 +1,12 @@
 <template>
-  <div class="Tchat">
-        <section class="tchat_vue">
+  <div class="Tchat" >
+        <section class="send_msg">
+            <!-- <input type="file" id="file" ref="file"/> -->
+
+            <input id="msg" v-model="msg"  @keyup.enter="get"  type="msg"  > <br>
+            <button :disabled="msg == ''"  @click="get">Envoyer Message</button> 
+        </section>
+        <section class="tchat_vue" v-if="token_id">
             <ul class="bubble">
                 <li class="message" v-for="item in tchat" :key="item">
 
@@ -23,11 +29,6 @@
             </ul>
             
         </section>
-            <section class="send_msg">
-                <input id="msg" v-model="msg"  @keyup.enter="get"  type="msg"  > <br>
-                <button :disabled="msg == ''"  @click="get">Envoyer Message</button> 
-            </section>
-
   </div>
 </template>
 <script>
@@ -39,19 +40,19 @@ export default {
     return {
         tchat:"",
         msg:"",
-        id_user:""
+        id_user:"",
+        token_id:this.token_id
     }
     
   },
   mounted() {
-/*         service_msg("http://localhost:3000/api/message/pseudo")
-        .then(result=>{
-          this.tchat=result
-        })
-        .catch(error=>{
-          console.log(error)
-        })  */
-     
+        this.token_id =localStorage.getItem("token")
+        if(!this.token_id){
+          console.log("erreur")
+          window.location.replace("http://192.168.1.129:8080/signin");
+          
+        }
+ 
         service_msg("http://localhost:3000/api/message/")
         .then(result=>{
           console.log(result)
@@ -92,7 +93,7 @@ export default {
 </script>
 <style lang="scss">
    .Tchat{ 
-     
+        min-height: 600px;
         margin-top: 15px;
         display: flex;
         flex-direction: column;
@@ -121,7 +122,7 @@ export default {
         .tchat_vue {
               width: 90%;
               border:2px black solid;
-              height: 420px;
+              min-height: 420px;
               background:  #d3dfe4;
               overflow: auto;
               margin: 50px 10px;

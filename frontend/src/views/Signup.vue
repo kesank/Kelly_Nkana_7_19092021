@@ -1,5 +1,5 @@
 <template>
-  <div class="signup">
+  <div class="Tchat">
         
           <section class="sign">
               <p v-if="err_sign !=0">Veuillez renseigner tous les champs requis</p>

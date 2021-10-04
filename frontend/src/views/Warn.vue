@@ -1,9 +1,8 @@
 <template>
   <div class="Tchat">
         <h1>Posts et Commentaires signalés</h1>
-        <div class="warn">
-    
-          <ul class="warn_post">
+        <div class="warn" v-if="role =='admin'" >
+        <ul class="warn_post">
             <h2>Post signalé</h2>
             <li class="message" v-for="item in tchat" :key="item">
                 <p> {{item.user.pseudo}}</p>
@@ -42,11 +41,27 @@ export default {
     return {
        tchat:"",
        com:"",
+       token_id:this.token_id,
+       role:this.role
        
     }
     
   },
   mounted() {
+        let token_id=localStorage.getItem("token")
+        console.log(token_id)
+        if(!token_id){
+
+        return ;
+      }
+      this.token_id=JSON.parse(token_id)
+      this.role=this.token_id.role
+      if(this.role !="admin"){
+      console.log("erreur")
+          window.location.replace("http://192.168.1.129:8080/tchat");
+          
+        }
+
         service_msg("http://localhost:3000/api/message/signal")
         .then(result=>{
             this.tchat=result

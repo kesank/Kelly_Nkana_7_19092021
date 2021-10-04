@@ -1,6 +1,6 @@
 <template>
   <div class="Tchat">
-      <div class="profil">
+      <div class="profil" v-if="token_id">
           <h1>Bienvenue sur votre page Profil {{pseudo2}}</h1>
           <label for="pseudo">Pseudo :</label>
           <br>
@@ -22,18 +22,25 @@
 <script>
 import service_user from "../services/fetch";
 export default {
-  name: 'Tchat',
+  name: 'Profil',
   data() {
     return {
         pseudo:this.pseudo,
         pseudo2:this.pseudo2,
         email:this.email,
-        id:this.id
+        id:this.id,
+        token_id:this.token_id
 
     }
     
   },
   mounted() {
+      this.token_id =localStorage.getItem("token")
+        if(!this.token_id){
+          console.log("erreur")
+          window.location.replace("http://192.168.1.129:8080/signin");
+          
+        }
       let token=JSON.parse(localStorage.getItem("token"))
        service_user(`http://localhost:3000/api/user/profil/${token.userId}`)
         .then(result=>{
@@ -94,6 +101,10 @@ export default {
         width: 90%;
         min-height: 500px;
         padding: 26px;
+        h1{
+          margin-top: 25px ;
+          margin-bottom: 25px ;
+        }
 
     }
 </style>

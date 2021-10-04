@@ -105,7 +105,9 @@ a{
   text-decoration: none;
 }
 
-
+.router-link-exact-active{
+  color: white;
+}
 #nav {
   
   display: flex;
@@ -120,7 +122,7 @@ a{
       font-weight: bold;
       color: #2c3e50;
       line-height:80px;
-      .router-link-exact-active {
+      :active {
         color: #42b983;
   }
     }

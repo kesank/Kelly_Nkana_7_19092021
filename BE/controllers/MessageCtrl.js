@@ -7,7 +7,7 @@ exports.create = (req, res) => {
     Message.create({
         userId: req.body.id_user,
         msg: req.body.msg,
-        /*         media: req.body.media,
+        /*         media: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
          */
     })
         .then(succes => {

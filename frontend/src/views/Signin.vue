@@ -10,6 +10,7 @@
         <input id="password" v-model="password"   type="password"  >
         <br>
         <p v-if="err_carr !=0">Veuillez renseigner un mot de passe sans caractères spéciaux</p>
+        <p v-if="err_id !=0">Les identifiants entrer sont incorrect</p>
         <button  :disabled="email == ''"   @click="get"  
         >Se connecter</button>
       </section>
@@ -27,6 +28,7 @@ export default {
         err_sign:0,
         err_email:0,
         err_carr:0,
+        err_id:0,
         reg: /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/,
         reg_all:/[a-zA-Z_0-9]/
     }
@@ -42,7 +44,7 @@ export default {
             email:this.email,
             password:this.password
         }
-              if(this.email=="" ||  this.password==""){
+      if(this.email=="" ||  this.password==""){
         this.err_sign=1
       }
       else{
@@ -50,17 +52,17 @@ export default {
           this.err_email=0
           if( this.reg_all.test(this.password)){
             this.err_carr=0
-        service_user("http://localhost:3000/api/user/login",login)
-        .then(result=>{
-          
-            localStorage.setItem("token",JSON.stringify(result))
-            window.location.replace("http://192.168.1.129:8080/tchat");
-            console.log("token : "+result.userId)
-        })
-        .catch(error=>{
-  
-          console.log(error)
-        })
+              service_user("http://localhost:3000/api/user/login",login)
+              .then(result=>{
+                
+                  localStorage.setItem("token",JSON.stringify(result))
+                  window.location.replace("http://192.168.1.129:8080/tchat");
+                  console.log("token : "+result.userId)
+              })
+              .catch(error=>{
+                this.err_id=1
+                console.log(error)
+              })
           }
           else{
             this.err_carr=1

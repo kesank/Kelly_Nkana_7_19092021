@@ -59,7 +59,7 @@ export default {
         service_msg(`http://localhost:3000/api/message/${id}`)
         .then(result=>{
           this.tchat=result
-          console.log(result)
+          /* console.log(result) */
         })
         .catch(error=>{
           console.log(error)

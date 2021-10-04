@@ -27,19 +27,19 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
     Comment.findAll(
         {
+            where: { messageId: req.params.id },
             order: [
-                ['updatedAt', 'DESC'],
+                ['updatedAt', 'DESC']
             ],
+
             include: [
                 {
                     model: User,
-                    required: true,
-
                 },
-
             ],
 
-        }
+        },
+
     )
         .then(
 
